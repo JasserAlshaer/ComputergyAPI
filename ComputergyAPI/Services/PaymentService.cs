@@ -3,9 +3,9 @@ using ComputergyAPI.Interfaces;
 
 namespace ComputergyAPI.Services
 {
-    public class PaymentServece : IPayment
+    public class PaymentService : IPayment
     {
-        public Task<bool> CreatUpdatePaymentCard(CreatUpdatePaymentCardDTO input)
+        public Task<bool> CreateUpdatePaymentCard(CreateUpdatePaymentCardDTO input)
         {
             throw new NotImplementedException();
         }

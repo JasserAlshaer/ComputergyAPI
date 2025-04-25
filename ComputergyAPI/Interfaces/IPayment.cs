@@ -4,7 +4,7 @@ namespace ComputergyAPI.Interfaces
 {
     public interface IPayment
     {
-        public Task<bool> CreatUpdatePaymentCard(CreatUpdatePaymentCardDTO input);
+        public Task<bool> CreateUpdatePaymentCard(CreateUpdatePaymentCardDTO input);
         public Task<bool> RemovePaymentCard(int CardId);
 
         public Task<PaymentDTO> GetPaymentCard(int CardId);
