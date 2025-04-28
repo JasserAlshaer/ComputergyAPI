@@ -1,6 +1,6 @@
 ﻿namespace ComputergyAPI.Entites
 {
-    public class CartItem
+    public class CartItem:MainEntity
     {
         public int CartId { get; set; }
         public int ItemId { get; set; }

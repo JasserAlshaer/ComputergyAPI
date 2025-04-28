@@ -1,4 +1,6 @@
-﻿namespace ComputergyAPI.DTOs.Payment
+﻿using ComputergyAPI.Entites;
+
+namespace ComputergyAPI.DTOs.Payment
 {
     public class CreateUpdatePaymentCardDTO
     {

@@ -1,33 +1,108 @@
-﻿using ComputergyAPI.DTOs.Discount;
+﻿using ComputergyAPI.Contexts;
+using ComputergyAPI.DTOs.Discount;
+using ComputergyAPI.Entites;
 using ComputergyAPI.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComputergyAPI.Services
 {
     public class DiscountService : IDiscount
     {
-        public Task<string> CreateDiscount(DiscountInputDTO input)
+        private readonly ComputergyDbContext _Context;
+        public DiscountService(ComputergyDbContext computergyDbContext)
         {
-            throw new NotImplementedException();
+            _Context = computergyDbContext;
+        }
+        public async Task<string> CreateDiscount(DiscountInputDTO input)
+        {
+            Discount discount = new Discount();
+            discount.Title = input.Title;
+            discount.StartDate = input.StartDate;
+            discount.EndDate = input.EndDate;
+            discount.Percentage = input.Percentage;
+            discount.CreationDate = DateTime.Now;
+            discount.CreatedBy = "System";
+            discount.Description = input.Description;
+            discount.ImageUrl = input.ImageUrl;
+            discount.LimitAmount = input.LimitAmount;
+            discount.LimitUser = input.LimitUser;   
+            discount.Code= input.Code;
+            _Context.Add(discount);
+            _Context.SaveChanges();
+            return "discount added sueccefully";
+
         }
 
-        public Task<bool> DeleteDiscount(int discountId)
+        public async Task<bool> DeleteDiscount(int discountId)
         {
-            throw new NotImplementedException();
+        
+        
+            var discount = await _Context.Discount.FindAsync(discountId);
+            if (discount == null)
+                return false;
+
+            _Context.Discount.Remove(discount);
+            await _Context.SaveChangesAsync();
+
+            return true;
+        
         }
 
-        public Task<Interfaces.IDiscount> GetAllDiscount()
+        public async Task<List<DiscountDTO>> GetAllDiscount()
         {
-            throw new NotImplementedException();
+
+            var discounts = _Context.Discount.ToList();
+
+            var discountDTOs = discounts.Select(d => new DiscountDTO
+            {
+
+                Title = d.Title,
+                Percentage = d.Percentage,
+                StartDate = d.StartDate,
+                EndDate = d.EndDate,
+                Code=d.Code,
+
+
+            }).ToList();
+
+
+
+
+            return discountDTOs;
         }
 
-        public Task<string> UpdateDiscount(int discountId, DiscountInputDTO input)
+        public async Task<string> UpdateDiscount(int discountId, DiscountInputDTO input)
         {
-            throw new NotImplementedException();
+            var discount = await _Context.Discount.FindAsync(discountId);
+            if (discount == null)
+                return "Discount not found";
+
+            discount.Title = input.Title;
+            discount.Percentage = input.Percentage;
+            discount.StartDate = input.StartDate;
+            discount.EndDate = input.EndDate;
+            discount.Code = input.Code; 
+
+            discount.ImageUrl=input.ImageUrl;
+            discount.Description= input.Description;
+            discount.LimitUser = input.LimitUser;
+            discount.LimitAmount = input.LimitAmount;
+
+            _Context.Update(discount);
+            _Context.SaveChangesAsync();
+            return "Discount updated successfully";
         }
+
+
 
         Task<DiscountDTO> IDiscount.GetAllDiscount()
         {
             throw new NotImplementedException();
         }
+
+
     }
-}
+    }
+
+
+    

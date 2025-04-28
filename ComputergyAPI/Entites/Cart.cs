@@ -3,8 +3,7 @@
     public class Cart:MainEntity
     {
 
-        public int ClientId { get; set; }
-        
+        public int ClientId { get; set; }        
 
     }
 }
